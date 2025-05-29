@@ -1,0 +1,22 @@
+#root {
+  max-width: 1280px;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.main {
+  width: 100vw;
+  margin-top: 106px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
