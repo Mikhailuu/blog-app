@@ -1,25 +1,39 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
+
+import { useEffect, useState } from "react";
+import { getCurrentUser } from "./api/fetchApi";
+
 import Articles from "./components/Articles";
 import Header from "./components/Header";
 import ArticleDetails from "./components/ArticleDetails";
 import SignUp from "./components/SignUp";
 import SignIn from "./components/SignIn";
-
-import { useRef, useState } from "react";
 import Profile from "./components/Profile";
+import NewArticle from "./components/NewArticle";
+import EditArticles from "./components/EditArticles";
 
 function App() {
-  const [isLogged, setIsLogged] = useState(true);
-  const userTest = useRef({
-    username: "John Doe",
-    email: "john@example.com",
-  });
+  const [isLogged, setIsLogged] = useState(false);
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    const loadUserData = async () => {
+      const userData = await getCurrentUser(localStorage.getItem("token"));
+
+      if (userData) setUser(userData.user);
+    };
+
+    if (localStorage.getItem("token")) {
+      setIsLogged(true);
+      loadUserData();
+    }
+  }, [isLogged]);
 
   return (
     <Router>
       <header className="header">
-        <Header isLogged={isLogged} setIsLogged={setIsLogged} />
+        <Header user={user} isLogged={isLogged} setIsLogged={setIsLogged} />
       </header>
       <main className="main">
         <Routes>
@@ -32,12 +46,11 @@ function App() {
             path="/sign-up"
             element={<SignUp isLogged={isLogged} setIsLogged={setIsLogged} />}
           />
-          <Route
-            path="/profile"
-            element={<Profile user={userTest.current} />}
-          />
-          <Route path="/artiles" element={<Articles />} />
+          <Route path="/profile" element={<Profile user={user} />} />
+          <Route path="/" element={<Articles />} />
           <Route path="/articles/:slug" element={<ArticleDetails />} />
+          <Route path="/new-article" element={<NewArticle />} />
+          <Route path="/articles/:slug/edit" element={<EditArticles />} />
         </Routes>
       </main>
     </Router>

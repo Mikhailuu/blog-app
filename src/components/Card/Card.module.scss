@@ -14,7 +14,7 @@
 }
 
 .wrapper {
-  max-width: 70%;
+  max-width: 60%;
 
   text-align: left;
 }
@@ -30,6 +30,10 @@
   line-height: 28px;
   letter-spacing: 0;
   color: #1890ff;
+}
+
+.tags {
+  display: block;
 }
 
 .tag {

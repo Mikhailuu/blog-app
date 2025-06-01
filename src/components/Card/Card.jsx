@@ -13,15 +13,18 @@ const Card = ({ data }) => {
     <div className={classes.container} onClick={handleClick}>
       <div className={classes.wrapper}>
         <h5 className={classes.title}>{title ? title.trim() : null}</h5>
-        {tagList.length !== 0 &&
-          tagList.map(
-            (tag, idx) =>
-              tag !== "" && (
-                <span key={idx} className={classes.tag}>
-                  {tag}
-                </span>
-              )
-          )}
+
+        <div className={classes.tags}>
+          {tagList.length !== 0 &&
+            tagList.map(
+              (tag, idx) =>
+                tag !== "" && (
+                  <span key={idx} className={classes.tag}>
+                    {tag}
+                  </span>
+                )
+            )}
+        </div>
         <p className={classes.text}>{description}</p>
       </div>
       <div className={classes["author-details"]}>

@@ -2,10 +2,10 @@ import { Link } from "react-router-dom";
 import classes from "./Header.module.scss";
 import UserDetails from "../UserDetails";
 
-const Header = ({ isLogged = false, setIsLogged }) => {
+const Header = ({ user, isLogged, setIsLogged }) => {
   return (
     <div className={classes.header}>
-      <Link to="/artiles">
+      <Link to="/">
         <span>RealWorld Blog</span>
       </Link>
       {!isLogged && (
@@ -18,7 +18,15 @@ const Header = ({ isLogged = false, setIsLogged }) => {
           </Link>
         </div>
       )}
-      {isLogged && <UserDetails setIsLogged={setIsLogged} />}
+      {isLogged && (
+        <UserDetails
+          user={user}
+          setIsLogged={() => {
+            localStorage.removeItem("token");
+            setIsLogged(false);
+          }}
+        />
+      )}
     </div>
   );
 };

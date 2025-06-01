@@ -2,16 +2,18 @@ import classes from "./ArticleDetails.module.scss";
 import "./MarkdownStyles.scss";
 
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { fetchArticle } from "../../api/fetchApi";
+import { useParams, Navigate, Link } from "react-router-dom";
+import { deleteArticle, fetchArticle } from "../../api/fetchApi";
 import Markdown from "markdown-to-jsx";
+import ConfirmPopup from "../ConfirmPopup";
 
 const ArticleDetails = () => {
   const { slug } = useParams();
   const [article, setArticle] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-
-  console.log(slug);
+  const [redirectTo, setRedirectTo] = useState(null);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
   useEffect(() => {
     const loadArticle = async () => {
@@ -28,6 +30,22 @@ const ArticleDetails = () => {
     loadArticle();
   }, [slug]);
 
+  const handleDeleteClick = (e) => {
+    const rect = e.target.getBoundingClientRect();
+    setPopupPosition({
+      top: rect.bottom + window.scrollY,
+      left: rect.left + window.scrollX,
+    });
+    setShowConfirm(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    setShowConfirm(false);
+    const response = await deleteArticle(slug);
+    if (response) setRedirectTo(true);
+  };
+
+  if (redirectTo) return <Navigate to="/" replace />;
   if (isLoading) return <div>Loading...</div>;
   if (!article) return <div>Article not found</div>;
 
@@ -39,15 +57,17 @@ const ArticleDetails = () => {
           <h5 className={classes.title}>
             {description ? description.trim() : null}
           </h5>
-          {tagList.length !== 0 &&
-            tagList.map(
-              (tag, idx) =>
-                tag !== "" && (
-                  <span key={idx} className={classes.tag}>
-                    {tag}
-                  </span>
-                )
-            )}
+          <div className={classes.tags}>
+            {tagList.length !== 0 &&
+              tagList.map(
+                (tag, idx) =>
+                  tag !== "" && (
+                    <span key={idx} className={classes.tag}>
+                      {tag}
+                    </span>
+                  )
+              )}
+          </div>
           <p className={classes.text}>{description}</p>
         </div>
         <div className={classes["author-details"]}>
@@ -61,8 +81,33 @@ const ArticleDetails = () => {
               })}
             </span>
           </div>
-
           <img className={classes.avatar} src={author.image}></img>
+          <button
+            className={`${classes.button} ${classes.delete}`}
+            onClick={handleDeleteClick}
+          >
+            Delete
+          </button>
+          {showConfirm && (
+            <div
+              className={classes.confirmPopup}
+              style={{
+                top: `${popupPosition.top}px`,
+                left: `${popupPosition.left}px`,
+              }}
+            >
+              <p>Are you sure to delete this article?</p>
+              <div className={classes.popupButtons}>
+                <button onClick={handleConfirmDelete}>Да</button>
+                <button onClick={() => setShowConfirm(false)}>Нет</button>
+              </div>
+            </div>
+          )}
+          <Link to={`/articles/${slug}/edit`}>
+            <button className={`${classes.button} ${classes.edit}`}>
+              Edit
+            </button>
+          </Link>
         </div>
       </header>
       <article className={classes.article}>

@@ -3,7 +3,7 @@ import Form from "../Form";
 const Profile = ({ user }) => {
   const { username, email } = user;
   const labels = {
-    title: "Efit Profile",
+    title: "Edit Profile",
     inputLabels: [
       "Username",
       "Email address",
