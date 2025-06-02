@@ -123,17 +123,17 @@ const ArticleDetails = () => {
           )}
         </div>
       </header>
-      <article className={classes.article}>
-        <Markdown
-          options={{
-            overrides: {
-              img: { props: { className: "markdown-image" } },
-            },
-          }}
-        >
-          {body}
-        </Markdown>
-      </article>
+
+      <Markdown
+        className={classes.article}
+        options={{
+          overrides: {
+            img: { props: { className: "markdown-image" } },
+          },
+        }}
+      >
+        {body}
+      </Markdown>
     </div>
   );
 };
