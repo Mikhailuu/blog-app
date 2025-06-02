@@ -78,3 +78,29 @@ export const deleteArticle = async (slug) => {
 
   return response.ok;
 };
+
+export const likeArticle = async (slug) => {
+  const response = await fetch(`${API_BASE}/articles/${slug}/favorite`, {
+    method: "POST",
+    headers: {
+      Authorization: `Token ${TOKEN}`,
+    },
+  });
+
+  if (!response.ok) throw new Error("Likes article failed:", response.status);
+
+  return response.ok;
+};
+
+export const unLikeArticle = async (slug) => {
+  const response = await fetch(`${API_BASE}/articles/${slug}/favorite`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Token ${TOKEN}`,
+    },
+  });
+
+  if (!response.ok) throw new Error("Unlikes article failed:", response.status);
+
+  return response.ok;
+};

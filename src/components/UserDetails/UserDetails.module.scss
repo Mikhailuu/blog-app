@@ -8,6 +8,7 @@
 
 .username {
   margin-right: 25px;
+  color: rgba(0, 0, 0, 0.85);
 }
 
 .avatar {
@@ -18,4 +19,16 @@
 .profile-link {
   display: flex;
   align-items: center;
+}
+
+.create-button {
+  border: 1px solid #52c41a;
+  color: #52c41a;
+  background-color: transparent;
+}
+
+.logout-button {
+  border: 1px solid rgba(0, 0, 0, 0.75);
+  color: rgba(0, 0, 0, 0.75);
+  background-color: transparent;
 }

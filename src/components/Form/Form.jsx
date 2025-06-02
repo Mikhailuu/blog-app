@@ -5,10 +5,14 @@ import { useForm } from "react-hook-form";
 import { fetchByForm } from "../../api/fetchApi";
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "../../store/authSlice";
 
 const generateId = () => Math.random().toString(36).substring(2, 9);
 
 const Form = ({ labels, setIsLogged }) => {
+  const dispatch = useDispatch();
+
   const [tags, setTags] = useState([]);
   const [newTag, setNewTag] = useState("");
   const [error, setError] = useState(null);
@@ -152,10 +156,16 @@ const Form = ({ labels, setIsLogged }) => {
       }
 
       const responseData = await fetchByForm(endpoint, method, requestData);
+
       console.log("Success:", responseData);
 
       if (formType.includes("sign in") && responseData.user?.token) {
-        localStorage.setItem("token", responseData.user.token);
+        dispatch(
+          setCredentials({
+            user: responseData.user,
+            token: responseData.user.token,
+          })
+        );
         setIsLogged(true);
         setRedirectTo("/profile");
       }

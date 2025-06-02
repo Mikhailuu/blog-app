@@ -1,0 +1,37 @@
+.like-button {
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #555;
+  transition: all 0.2s;
+
+  &:hover {
+    color: #ff4757;
+  }
+
+  &.active {
+    color: #ff4757;
+  }
+}
+
+.like-input {
+  margin: 0;
+  appearance: none;
+  cursor: pointer;
+  width: 1rem;
+  height: 1rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  content: url("../../assets/like.svg");
+
+  &:checked {
+    content: url("../../assets/likeActive.svg");
+  }
+}
+
+.like-span {
+  margin: 0;
+  font-size: 12px;
+}

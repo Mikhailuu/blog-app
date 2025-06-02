@@ -3,11 +3,13 @@ import "./MarkdownStyles.scss";
 
 import { useEffect, useState } from "react";
 import { useParams, Navigate, Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { deleteArticle, fetchArticle } from "../../api/fetchApi";
 import Markdown from "markdown-to-jsx";
-import ConfirmPopup from "../ConfirmPopup";
+import LikeButton from "../LikeButton";
 
 const ArticleDetails = () => {
+  const { user } = useSelector((state) => state.auth);
   const { slug } = useParams();
   const [article, setArticle] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -45,6 +47,8 @@ const ArticleDetails = () => {
     if (response) setRedirectTo(true);
   };
 
+  const isAuthor = user && article && user.username === article.author.username;
+
   if (redirectTo) return <Navigate to="/" replace />;
   if (isLoading) return <div>Loading...</div>;
   if (!article) return <div>Article not found</div>;
@@ -54,9 +58,16 @@ const ArticleDetails = () => {
     <div className={classes.container}>
       <header className={classes.header}>
         <div className={classes.wrapper}>
-          <h5 className={classes.title}>
-            {description ? description.trim() : null}
-          </h5>
+          <div className={`${classes["title-with-likes"]}`}>
+            <h5 className={classes.title}>
+              {description ? description.trim() : null}
+            </h5>
+            <LikeButton
+              initialLikes={article.favoritesCount}
+              initialLiked={article.favorited}
+              slug={slug}
+            />
+          </div>
           <div className={classes.tags}>
             {tagList.length !== 0 &&
               tagList.map(
@@ -82,32 +93,36 @@ const ArticleDetails = () => {
             </span>
           </div>
           <img className={classes.avatar} src={author.image}></img>
-          <button
-            className={`${classes.button} ${classes.delete}`}
-            onClick={handleDeleteClick}
-          >
-            Delete
-          </button>
-          {showConfirm && (
-            <div
-              className={classes.confirmPopup}
-              style={{
-                top: `${popupPosition.top}px`,
-                left: `${popupPosition.left}px`,
-              }}
-            >
-              <p>Are you sure to delete this article?</p>
-              <div className={classes.popupButtons}>
-                <button onClick={handleConfirmDelete}>Да</button>
-                <button onClick={() => setShowConfirm(false)}>Нет</button>
-              </div>
-            </div>
+          {isAuthor && (
+            <>
+              <button
+                className={`${classes.button} ${classes.delete}`}
+                onClick={handleDeleteClick}
+              >
+                Delete
+              </button>
+              {showConfirm && (
+                <div
+                  className={classes.confirmPopup}
+                  style={{
+                    top: `${popupPosition.top}px`,
+                    left: `${popupPosition.left}px`,
+                  }}
+                >
+                  <p>Are you sure to delete this article?</p>
+                  <div className={classes.popupButtons}>
+                    <button onClick={handleConfirmDelete}>Да</button>
+                    <button onClick={() => setShowConfirm(false)}>Нет</button>
+                  </div>
+                </div>
+              )}
+              <Link to={`/articles/${slug}/edit`}>
+                <button className={`${classes.button} ${classes.edit}`}>
+                  Edit
+                </button>
+              </Link>
+            </>
           )}
-          <Link to={`/articles/${slug}/edit`}>
-            <button className={`${classes.button} ${classes.edit}`}>
-              Edit
-            </button>
-          </Link>
         </div>
       </header>
       <article className={classes.article}>

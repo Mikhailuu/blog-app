@@ -1,8 +1,20 @@
-import { useNavigate } from "react-router-dom";
 import classes from "./Card.module.scss";
 
+import { useNavigate } from "react-router-dom";
+
+import LikeButton from "../LikeButton";
+
 const Card = ({ data }) => {
-  const { description, title, createdAt, tagList, author } = data;
+  const {
+    slug,
+    description,
+    title,
+    createdAt,
+    tagList,
+    author,
+    favoritesCount,
+    favorited,
+  } = data;
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -12,8 +24,14 @@ const Card = ({ data }) => {
   return (
     <div className={classes.container} onClick={handleClick}>
       <div className={classes.wrapper}>
-        <h5 className={classes.title}>{title ? title.trim() : null}</h5>
-
+        <div className={classes["title-with-likes"]}>
+          <h5 className={classes.title}>{title ? title.trim() : null}</h5>
+          <LikeButton
+            initialLikes={favoritesCount}
+            initialLiked={favorited}
+            slug={slug}
+          />
+        </div>
         <div className={classes.tags}>
           {tagList.length !== 0 &&
             tagList.map(
