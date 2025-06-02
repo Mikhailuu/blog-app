@@ -53,15 +53,13 @@ const ArticleDetails = () => {
   if (isLoading) return <div>Loading...</div>;
   if (!article) return <div>Article not found</div>;
 
-  const { description, body, createdAt, tagList, author } = article;
+  const { title, description, body, createdAt, tagList, author } = article;
   return (
     <div className={classes.container}>
       <header className={classes.header}>
         <div className={classes.wrapper}>
           <div className={`${classes["title-with-likes"]}`}>
-            <h5 className={classes.title}>
-              {description ? description.trim() : null}
-            </h5>
+            <h5 className={classes.title}>{title ? title.trim() : null}</h5>
             <LikeButton
               initialLikes={article.favoritesCount}
               initialLiked={article.favorited}
