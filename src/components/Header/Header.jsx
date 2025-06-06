@@ -1,19 +1,10 @@
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import classes from "./Header.module.scss";
 import UserDetails from "../UserDetails";
-import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../store/authSlice";
+import { useSelector } from "react-redux";
 
 const Header = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const { user, isAuthentiated } = useSelector((state) => state.auth);
-
-  const handleLogout = () => {
-    dispatch(logout());
-    navigate("/sign-in");
-  };
+  const { isAuthentiated } = useSelector((state) => state.auth);
 
   return (
     <div className={classes.header}>
@@ -30,7 +21,7 @@ const Header = () => {
           </Link>
         </div>
       )}
-      {isAuthentiated && <UserDetails user={user} setIsLogged={handleLogout} />}
+      {isAuthentiated && <UserDetails />}
     </div>
   );
 };

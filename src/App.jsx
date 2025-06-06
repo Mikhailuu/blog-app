@@ -1,8 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 
-import { useEffect, useState } from "react";
-import { getCurrentUser } from "./api/fetchApi";
+import { useEffect } from "react";
 
 import Articles from "./components/Articles";
 import Header from "./components/Header";
@@ -13,40 +12,35 @@ import Profile from "./components/Profile";
 import NewArticle from "./components/NewArticle";
 import EditArticles from "./components/EditArticles";
 import ProtectedRoute from "./components/ProtectedRoute";
+import { useDispatch, useSelector } from "react-redux";
+import { setCredentials } from "./store/authSlice";
 
 function App() {
-  const [isLogged, setIsLogged] = useState(false);
-  const [user, setUser] = useState({});
+  const dispatch = useDispatch();
+  const { user, isAuthentiated } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    const loadUserData = async () => {
-      const userData = await getCurrentUser(localStorage.getItem("token"));
-
-      if (userData) setUser(userData.user);
-    };
-
-    if (localStorage.getItem("token")) {
-      setIsLogged(true);
-      loadUserData();
+    if (isAuthentiated) {
+      const token = localStorage.getItem("token");
+      dispatch(
+        setCredentials({
+          token,
+          user: JSON.parse(localStorage.getItem("user")),
+        })
+      );
     }
-  }, [isLogged]);
+  }, [dispatch]);
 
   return (
     <Router>
       <header className="header">
-        <Header user={user} isLogged={isLogged} setIsLogged={setIsLogged} />
+        <Header />
       </header>
       <main className="main">
         <Routes>
           <Route path="/*" Component={() => <div>Not found</div>} />
-          <Route
-            path="/sign-in"
-            element={<SignIn isLogged={isLogged} setIsLogged={setIsLogged} />}
-          />
-          <Route
-            path="/sign-up"
-            element={<SignUp isLogged={isLogged} setIsLogged={setIsLogged} />}
-          />
+          <Route path="/sign-in" element={<SignIn />} />
+          <Route path="/sign-up" element={<SignUp />} />
           <Route path="/profile" element={<Profile user={user} />} />
           <Route path="/" element={<Articles />} />
           <Route path="/articles/:slug" element={<ArticleDetails />} />
