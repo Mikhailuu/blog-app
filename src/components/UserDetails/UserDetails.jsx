@@ -11,7 +11,7 @@ const UserDetails = () => {
   const { user } = useSelector((state) => state.auth);
 
   const handleLogout = () => {
-    dispatch(logout);
+    dispatch(logout());
     navigate("/sign-in");
   };
 
