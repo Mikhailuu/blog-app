@@ -12,6 +12,7 @@ import SignIn from "./components/SignIn";
 import Profile from "./components/Profile";
 import NewArticle from "./components/NewArticle";
 import EditArticles from "./components/EditArticles";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   const [isLogged, setIsLogged] = useState(false);
@@ -49,8 +50,22 @@ function App() {
           <Route path="/profile" element={<Profile user={user} />} />
           <Route path="/" element={<Articles />} />
           <Route path="/articles/:slug" element={<ArticleDetails />} />
-          <Route path="/new-article" element={<NewArticle />} />
-          <Route path="/articles/:slug/edit" element={<EditArticles />} />
+          <Route
+            path="/new-article"
+            element={
+              <ProtectedRoute>
+                <NewArticle />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/articles/:slug/edit"
+            element={
+              <ProtectedRoute>
+                <EditArticles />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </main>
     </Router>

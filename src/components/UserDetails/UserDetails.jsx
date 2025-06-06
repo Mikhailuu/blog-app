@@ -1,13 +1,13 @@
 import classes from "./UserDetails.module.scss";
 
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const UserDetails = ({ user, setIsLogged }) => {
   return (
     <div className={classes.container}>
       <Link to="/new-article">
         <button type="button" className={classes["create-button"]}>
-          Create artcle
+          Create article
         </button>
       </Link>
       <Link to="/profile" className={classes["profile-link"]}>
