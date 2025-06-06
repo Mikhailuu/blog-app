@@ -6,7 +6,14 @@ const TOKEN = localStorage.getItem("token")
   : null;
 
 export const fetchArticles = async () => {
-  const response = await fetch(`${API_BASE}/articles`);
+  const response = await fetch(`${API_BASE}/articles`, {
+    headers: {
+      "Content-Type": "application/json",
+      ...(localStorage.getItem("token") && {
+        Authorization: `Token ${localStorage.getItem("token")}`,
+      }),
+    },
+  });
   if (!response.ok) throw new Error("Failed fetch articles: ", response.status);
 
   const data = await response.json();
@@ -16,7 +23,15 @@ export const fetchArticles = async () => {
 
 export const fetchLimitArticles = async (page = 0) => {
   const response = await fetch(
-    `${API_BASE}/articles?offset=${page !== 1 ? page * 5 : 0}&limit=${5}`
+    `${API_BASE}/articles?offset=${page !== 1 ? page * 5 : 0}&limit=${5}`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        ...(localStorage.getItem("token") && {
+          Authorization: `Token ${localStorage.getItem("token")}`,
+        }),
+      },
+    }
   );
 
   const data = await response.json();
@@ -25,7 +40,14 @@ export const fetchLimitArticles = async (page = 0) => {
 };
 
 export const fetchArticle = async (slug) => {
-  const response = await fetch(`${API_BASE}/articles/${slug}`);
+  const response = await fetch(`${API_BASE}/articles/${slug}`, {
+    headers: {
+      "Content-Type": "application/json",
+      ...(localStorage.getItem("token") && {
+        Authorization: `Token ${localStorage.getItem("token")}`,
+      }),
+    },
+  });
   if (!response.ok) throw new Error("Failed fetch article: ", response.status);
 
   const data = await response.json();

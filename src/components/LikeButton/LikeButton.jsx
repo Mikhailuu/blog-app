@@ -31,6 +31,7 @@ const LikeButton = ({ initialLikes = 0, initialLiked = false, slug }) => {
         type="checkbox"
         onClick={handleLike}
         className={classes["like-input"]}
+        defaultChecked={isLiked}
       />
       <span className={classes["like-span"]}>{likes}</span>
     </label>
