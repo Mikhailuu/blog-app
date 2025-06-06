@@ -4,10 +4,15 @@ import Pagination from "../Pagination";
 
 import { fetchLimitArticles } from "../../api/fetchApi";
 import { useEffect, useState, useRef } from "react";
+import { useSearchParams } from "react-router-dom";
 
 const Articles = () => {
   const [articles, setArticles] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const pageParam = searchParams.get("page");
+  const [currentPage, setCurrentPage] = useState(
+    pageParam ? parseInt(pageParam, 10) : 1
+  );
   const [totalItems, setTotalItems] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const itemsPerPage = useRef(5);
@@ -36,6 +41,7 @@ const Articles = () => {
   }, [currentPage]);
 
   const handlePageChange = (page) => {
+    setSearchParams({ page: page.toString() });
     setCurrentPage(page);
   };
 

@@ -12,7 +12,15 @@ const UserDetails = ({ user, setIsLogged }) => {
       </Link>
       <Link to="/profile" className={classes["profile-link"]}>
         <span className={classes.username}>{user.username}</span>
-        <img className={classes.avatar} src={user.image} alt="User's avatar" />
+        <img
+          className={classes.avatar}
+          src={
+            user.image
+              ? user.iamge
+              : "https://static.productionready.io/images/smiley-cyrus.jpg"
+          }
+          alt="User's avatar"
+        />
       </Link>
       <button
         onClick={() => setIsLogged(false)}

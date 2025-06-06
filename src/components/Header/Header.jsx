@@ -1,14 +1,18 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import classes from "./Header.module.scss";
 import UserDetails from "../UserDetails";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../store/authSlice";
 
-const Header = ({ user, isLogged }) => {
+const Header = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { user, isAuthentiated } = useSelector((state) => state.auth);
 
   const handleLogout = () => {
     dispatch(logout());
+    navigate("/sign-in");
   };
 
   return (
@@ -16,7 +20,7 @@ const Header = ({ user, isLogged }) => {
       <Link to="/" className={classes["main-link"]}>
         <span>RealWorld Blog</span>
       </Link>
-      {!isLogged && (
+      {!isAuthentiated && (
         <div className={classes.sign}>
           <Link to="/sign-in">
             <span>Sign In</span>
@@ -26,7 +30,7 @@ const Header = ({ user, isLogged }) => {
           </Link>
         </div>
       )}
-      {isLogged && <UserDetails user={user} setIsLogged={handleLogout} />}
+      {isAuthentiated && <UserDetails user={user} setIsLogged={handleLogout} />}
     </div>
   );
 };

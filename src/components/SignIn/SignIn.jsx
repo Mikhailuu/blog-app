@@ -1,8 +1,18 @@
+import { useSelector } from "react-redux";
 import Form from "../Form";
+import { Navigate } from "react-router-dom";
 
 // Sign Up - регистрация, Sign In - вход
-const SignIn = ({ isLogged = false, setIsLogged }) => {
-  if (isLogged) return <div>You are logged</div>;
+const SignIn = () => {
+  const { isAuthentiated } = useSelector((state) => state.auth);
+
+  if (isAuthentiated)
+    return (
+      <div>
+        You are logged
+        <Navigate to="/" />
+      </div>
+    );
 
   const labels = {
     title: "Sign In",
@@ -15,7 +25,7 @@ const SignIn = ({ isLogged = false, setIsLogged }) => {
     },
   };
 
-  return <Form labels={labels} setIsLogged={setIsLogged} />;
+  return <Form labels={labels} />;
 };
 
 export default SignIn;

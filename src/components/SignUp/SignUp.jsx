@@ -1,14 +1,17 @@
+import { useSelector } from "react-redux";
 import Form from "../Form";
 
 // Sign Up - регистрация, Sign In - вход
-const SignUp = ({ isLogged = false, setIsLogged }) => {
-  if (isLogged) return <div>You are logged</div>;
+const SignUp = () => {
+  const { isAuthentiated } = useSelector((state) => state.auth);
+
+  if (isAuthentiated) return <div>You are logged</div>;
 
   const labels = {
     title: "Create new account",
     inputLabels: ["Username", "Email address", "Password", "Repeat Password"],
     inputTypes: ["text", "email", "password", "password"],
-    button: { label: "Create", onClick: () => setIsLogged(true) },
+    button: { label: "Create" },
     checkboxLabel: "I agree to the processing of my personal information",
     linkLabel: {
       label: "Already have an account?",

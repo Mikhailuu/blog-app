@@ -10,7 +10,7 @@ import { setCredentials } from "../../store/authSlice";
 
 const generateId = () => Math.random().toString(36).substring(2, 9);
 
-const Form = ({ labels, setIsLogged }) => {
+const Form = ({ labels }) => {
   const dispatch = useDispatch();
 
   const [tags, setTags] = useState([]);
@@ -166,7 +166,6 @@ const Form = ({ labels, setIsLogged }) => {
             token: responseData.user.token,
           })
         );
-        setIsLogged(true);
         setRedirectTo("/profile");
       }
 
