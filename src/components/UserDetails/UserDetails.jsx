@@ -16,7 +16,7 @@ const UserDetails = ({ user, setIsLogged }) => {
           className={classes.avatar}
           src={
             user.image
-              ? user.iamge
+              ? user.image
               : "https://static.productionready.io/images/smiley-cyrus.jpg"
           }
           alt="User's avatar"
