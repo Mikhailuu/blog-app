@@ -7,7 +7,8 @@ const LikeButton = ({ initialLikes = 0, initialLiked = false, slug }) => {
   const [likes, setLikes] = useState(initialLikes);
   const [isLiked, setIsLiked] = useState(initialLiked);
 
-  const handleLike = async () => {
+  const handleLike = async (e) => {
+    e.stopPropagation();
     try {
       if (isLiked) {
         await unLikeArticle(slug);
