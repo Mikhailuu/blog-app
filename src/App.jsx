@@ -17,17 +17,26 @@ import { setCredentials } from "./store/authSlice";
 
 function App() {
   const dispatch = useDispatch();
-  const { user, isAuthentiated } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    if (isAuthentiated) {
+    const token = localStorage.getItem("token");
+    const user = localStorage.getItem("user");
+
+    if (token && user) {
       const token = localStorage.getItem("token");
-      dispatch(
-        setCredentials({
-          token,
-          user: JSON.parse(localStorage.getItem("user")),
-        })
-      );
+      try {
+        dispatch(
+          setCredentials({
+            token,
+            user: JSON.parse(localStorage.getItem("user")),
+          })
+        );
+      } catch (error) {
+        console.error("Failed to parse user data", error);
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+      }
     }
   }, [dispatch]);
 

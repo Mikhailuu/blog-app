@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   user: JSON.parse(localStorage.getItem("user")) || null,
   token: localStorage.getItem("token") || null,
-  isAuthentiated: !!localStorage.getItem("token") || false,
+  isAuthenticated: !!localStorage.getItem("token") || false,
 };
 
 const authSlice = createSlice({
@@ -14,14 +14,14 @@ const authSlice = createSlice({
       const { user, token } = action.payload;
       state.user = user;
       state.token = token;
-      state.isAuthentiated = true;
+      state.isAuthenticated = true;
       localStorage.setItem("user", JSON.stringify(action.payload.user));
       localStorage.setItem("token", token);
     },
     logout: (state) => {
       state.user = null;
       state.token = null;
-      state.isAuthentiated = false;
+      state.isAuthenticated = false;
       localStorage.removeItem("user");
       localStorage.removeItem("token");
     },

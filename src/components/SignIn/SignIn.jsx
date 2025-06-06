@@ -4,9 +4,9 @@ import { Navigate } from "react-router-dom";
 
 // Sign Up - регистрация, Sign In - вход
 const SignIn = () => {
-  const { isAuthentiated } = useSelector((state) => state.auth);
+  const { isAuthenticated } = useSelector((state) => state.auth);
 
-  if (isAuthentiated)
+  if (isAuthenticated)
     return (
       <div>
         You are logged

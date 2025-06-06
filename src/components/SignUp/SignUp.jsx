@@ -3,9 +3,9 @@ import Form from "../Form";
 
 // Sign Up - регистрация, Sign In - вход
 const SignUp = () => {
-  const { isAuthentiated } = useSelector((state) => state.auth);
+  const { isAuthenticated } = useSelector((state) => state.auth);
 
-  if (isAuthentiated) return <div>You are logged</div>;
+  if (isAuthenticated) return <div>You are logged</div>;
 
   const labels = {
     title: "Create new account",

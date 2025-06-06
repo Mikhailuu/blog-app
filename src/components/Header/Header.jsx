@@ -4,14 +4,14 @@ import UserDetails from "../UserDetails";
 import { useSelector } from "react-redux";
 
 const Header = () => {
-  const { isAuthentiated } = useSelector((state) => state.auth);
+  const { isAuthenticated } = useSelector((state) => state.auth);
 
   return (
     <div className={classes.header}>
       <Link to="/" className={classes["main-link"]}>
         <span>RealWorld Blog</span>
       </Link>
-      {!isAuthentiated && (
+      {!isAuthenticated && (
         <div className={classes.sign}>
           <Link to="/sign-in">
             <span>Sign In</span>
@@ -21,7 +21,7 @@ const Header = () => {
           </Link>
         </div>
       )}
-      {isAuthentiated && <UserDetails />}
+      {isAuthenticated && <UserDetails />}
     </div>
   );
 };
