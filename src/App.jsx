@@ -50,9 +50,23 @@ function App() {
           <Route path="/*" Component={() => <div>Not found</div>} />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
-          <Route path="/profile" element={<Profile user={user} />} />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Profile user={user} />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/" element={<Articles />} />
-          <Route path="/articles/:slug" element={<ArticleDetails />} />
+          <Route
+            path="/articles/:slug"
+            element={
+              <ProtectedRoute>
+                <ArticleDetails />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/new-article"
             element={
